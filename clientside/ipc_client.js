@@ -42,23 +42,12 @@ const getConfig = () => {
     });
 }
 
-const getThemeArr = () => {
-    const getThemesFromPl = (plArr) => {
-        let retval = [];
-
-        plArr.forEach((pl) => {
-            if(/-theme$/.test(pl)) retval.push(pl);
-        });
-
-        return retval;
-    };
-
+const getPlugins = () => {
     return new Promise((resolve, reject) => {
         getConfig().then((config) => {
-            const plugins = config['plugins'];
-            resolve(getThemesFromPl(plugins));
+            resolve(config['plugins']);
         }, (err) => {
-            reject(err.message);
+            reject(err);
         });
     });
 }
@@ -86,7 +75,7 @@ const changeTheme = (theme) => {
 export default {
     installPlugin,
     sendNotification,
-    getThemeArr,
+    getPlugins,
     getCurTheme,
     getConfig,
     changeTheme

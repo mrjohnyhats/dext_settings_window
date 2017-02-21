@@ -5,7 +5,7 @@ import ipc_client from './ipc_client';
 const initialState = {
     optionSelected: "themes",
     curTheme: '',
-    themeArr: []
+    plugins: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -22,14 +22,11 @@ const reducer = (state = initialState, action) => {
             });
             break;
 
-        case actionTypes.SET_THEME_ARR:
+        case actionTypes.UPDATE_PLUGINS:
             return Object.assign({}, state, {
-                themeArr: action.themeArr
+                plugins: action.plugins
             });
             break;
-        case actionTypes.ADD_TO_THEME_ARR:
-            state.themeArr.push(action.theme);
-            return state;
 
         default:
             return state;

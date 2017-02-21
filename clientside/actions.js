@@ -14,23 +14,15 @@ const changeTheme = (theme) => {
     };
 }
 
-const setThemeArr = (arr) => {
+const updatePlugins = (arr) => {
     return {
-        type: actionTypes.SET_THEME_ARR,
-        themeArr: arr
-    };
-}
-
-const addThemeToArr = (theme) => {
-    return {
-        type: actionTypes.ADD_TO_THEME_ARR,
-        theme: theme
+        type: actionTypes.UPDATE_PLUGINS,
+        plugins: arr
     };
 }
 
 export default {
     changeOpt,
     changeTheme,
-    setThemeArr,
-    addThemeToArr
+    updatePlugins
 };

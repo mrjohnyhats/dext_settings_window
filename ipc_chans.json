@@ -2,5 +2,6 @@
     "INSTALL_PLUGIN": "install_plugin",
     "SEND_NOTIFICATION": "send_notification",
     "GET_CONFIG": "get_config",
-    "CHANGE_THEME": "change_theme"
+    "CHANGE_THEME": "change_theme",
+    "UNINSTALL_PL": "uninstall_pl"
 }

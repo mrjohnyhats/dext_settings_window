@@ -22,8 +22,8 @@ ipc_client.getCurTheme().then((theme) => {
     throw 'error while getting cur theme in init '+err;
 });
 
-ipc_client.getThemeArr().then((themes) => {
-    store.dispatch(actions.setThemeArr(themes));
+ipc_client.getPlugins().then((plugins) => {
+    store.dispatch(actions.updatePlugins(plugins));
 }, (err) => {
-    throw 'error while getting themes arr in init '+err;
+    throw 'error while getting plugins in init '+err;
 });

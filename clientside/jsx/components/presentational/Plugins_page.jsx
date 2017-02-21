@@ -4,10 +4,6 @@ import Page from '../base/Page.jsx';
 import Inputbox from './Inputbox.jsx';
 import ipc_client from '../../../ipc_client.js';
 
-const hasThemeEnding = (plName) => {
-    return /-theme$/.test(plName);
-};
-
 class Plugins_page extends React.Component {
     constructor(){
         super();
@@ -16,6 +12,15 @@ class Plugins_page extends React.Component {
         };
 
         this.handlePluginSubmit = this.handlePluginSubmit.bind(this);
+    }
+
+    getStyles(){
+        return {
+            loadingElem: {
+                display: 'block',
+                margin: '8vh auto auto auto'
+            }
+        };
     }
 
     handlePluginSubmit(inputVal){
@@ -29,7 +34,7 @@ class Plugins_page extends React.Component {
             ipc_client.sendNotification('installing plugin '+plName+' was successfull').then(() => {}, (err) => {
                 console.log('error sending notification '+err);
             });
-            if(hasThemeEnding(plName)) this.props.regNewTheme(plName);
+            this.props.updatePlugins();
 
             this.setState({
                 showLoading: false
@@ -47,8 +52,8 @@ class Plugins_page extends React.Component {
 
     render(){
         let loadingElem = null;
-        if(this.state.showLoading){
-            loadingElem = <img src="graphics/loading_gif.gif"/>;
+        if(this.state.showLoading || true){
+            loadingElem = <img src="graphics/loading_gif.gif" style={this.getStyles().loadingElem}/>;
         }
 
         return(
@@ -61,7 +66,7 @@ class Plugins_page extends React.Component {
 }
 
 Plugins_page.propTypes = {
-    regNewTheme: PropTypes.func.isRequired
+    updatePlugins: PropTypes.func.isRequired
 };
 
 export default Radium(Plugins_page);

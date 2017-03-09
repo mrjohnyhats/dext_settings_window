@@ -3,6 +3,7 @@ import Radium from 'radium';
 import Page from '../base/Page.jsx';
 import Inputbox from './Inputbox.jsx';
 import ipc_client from '../../../ipc_client.js';
+import Plugins_list_container from '../container/Plugins_list_container'
 
 class Plugins_page extends React.Component {
     constructor(){
@@ -34,6 +35,7 @@ class Plugins_page extends React.Component {
             ipc_client.sendNotification('installing plugin '+plName+' was successfull').then(() => {}, (err) => {
                 console.log('error sending notification '+err);
             });
+
             this.props.updatePlugins();
 
             this.setState({
@@ -52,7 +54,7 @@ class Plugins_page extends React.Component {
 
     render(){
         let loadingElem = null;
-        if(this.state.showLoading || true){
+        if(this.state.showLoading){
             loadingElem = <img src="graphics/loading_gif.gif" style={this.getStyles().loadingElem}/>;
         }
 
@@ -60,6 +62,7 @@ class Plugins_page extends React.Component {
             <Page>
                 <Inputbox defaultVal="install a plugin" handleSubmit={this.handlePluginSubmit}/>
                 {loadingElem}
+                <Plugins_list_container/>
             </Page>
         );
     }

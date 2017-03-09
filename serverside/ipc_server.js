@@ -50,4 +50,16 @@ module.exports = () => {
             e.sender.send(ipc_chans.CHANGE_THEME, err);
         }
     });
+
+    ipcMain.on(ipc_chans.DELETE_PLUGIN, (e, plugin) => {
+        try{
+            dutils.api.uninstall(plugin, dutils.utils.path.getPluginPath(plugin)).then(() => {
+                e.sender.send(ipc_chans.DELETE_PLUGIN, ipc_replies.SUCCESS);
+            }, (err) => {
+                e.sender.send(ipc_chans.DELETE_PLUGIN, err);
+            });
+        } catch(err) {
+            e.sender.send(ipc_chans.DELETE_PLUGIN, err);
+        }
+    });
 }

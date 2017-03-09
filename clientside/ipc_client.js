@@ -72,11 +72,22 @@ const changeTheme = (theme) => {
     });
 };
 
+const deletePlugin = (plugin) => {
+    return new Promise((resolve, reject) => {
+        ipcRenderer.send(ipc_chans.DELETE_PLUGIN, plugin);
+        ipcRenderer.once(ipc_chans.DELETE_PLIGIN, (e, reply) => {
+            if(reply == ipc_replies.SUCCESS) resolve();
+            else reject(reply);
+        });
+    });
+}
+
 export default {
     installPlugin,
     sendNotification,
     getPlugins,
     getCurTheme,
     getConfig,
-    changeTheme
+    changeTheme,
+    deletePlugin
 };

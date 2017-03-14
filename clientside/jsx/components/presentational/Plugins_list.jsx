@@ -21,24 +21,29 @@ class Plugins_list extends React.Component {
         }
     }
 
+    listingClickMethod(pl){
+        if(confirm('uninstall '+pl+'?')){
+            ipc_client.deletePlugin(pl).then(() => {
+                ipc_client.sendNotificationShortcut(pl+' uninstalled successfully!');
+            }, (err) => {
+                ipc_client.sendNotificationShortcut('error uninstalling '+pl+' err: '+err);
+            });
+        }
+    }
+
     render(){
         return(
             <div style={this.getStyles().list}>{
                 this.props.plugins.map((pl, index) => {
-
-                    let clickMethod = () => {
-                        if(confirm('uninstall '+pl+'?')){
-                            ipc_client.deletePlugin(pl).then(() => {
-                                ipc_client.sendNotification(pl+' uninstalled successfully!')
-                            }, (err) => {
-                                ipc_client.sendNotification('error uninstalling '+pl+' err: '+err);
-                            });
-                        }
-                    };
-
+                    //function binding may be a future performance issue
                     return (
                         <div style={this.getStyles().listing} key={index}>
-                            {pl} <img src="graphics/x_icon.png" style={this.getStyles().x_icon} onClick={clickMethod}/>
+                            {pl}
+                            <img
+                                src="graphics/x_icon.png"
+                                style={this.getStyles().x_icon}
+                                onClick={this.listingClickMethod.bind(pl)}
+                            />
                         </div>
                     );
                 })

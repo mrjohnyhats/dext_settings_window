@@ -2840,89 +2840,85 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-const installPlugin = (plName) => {
-    return new Promise((resolve, reject) => {
-        __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].INSTALL_PLUGIN, plName);
-        __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].INSTALL_PLUGIN, (e, reply) => {
-            if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS){
-                resolve();
-            } else {
-                reject(reply);
-            }
-        });
-    });
-};
-
-const sendNotification = (msg) => {
-    return new Promise((resolve, reject) => {
-        __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].SEND_NOTIFICATION, msg);
-        __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].SEND_NOTIFICATION, (e, reply) => {
-            if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS){
-                resolve();
-            } else {
-                reject(reply);
-            }
-        });
-    });
-};
-
-const getConfig = () => {
-    return new Promise((resolve, reject) => {
-        try{
-            __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].GET_CONFIG);
-            __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].GET_CONFIG, (e, reply, config) => {
-                if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS) resolve(config);
-                else reject(reply);
-            });
-        } catch(err){
-            reject(err.mesage);
+const installPlugin = (plName) => new Promise((resolve, reject) => {
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].INSTALL_PLUGIN, plName);
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].INSTALL_PLUGIN, (e, reply) => {
+        if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS){
+            resolve();
+        } else {
+            reject(reply);
         }
     });
-}
+});
 
-const getPlugins = () => {
-    return new Promise((resolve, reject) => {
-        getConfig().then((config) => {
-            resolve(config['plugins']);
-        }, (err) => {
-            reject(err);
-        });
+const sendNotification = (msg) => new Promise((resolve, reject) => {
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].SEND_NOTIFICATION, msg);
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].SEND_NOTIFICATION, (e, reply) => {
+        if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS){
+            resolve();
+        } else {
+            reject(reply);
+        }
     });
-}
+});
 
-const getCurTheme = () => {
-    return new Promise((resolve, reject) => {
-        getConfig().then((config) => {
-            resolve(config['theme']);
-        }, (err) => {
-            reject(err.message);
-        });
-    });
-}
-
-const changeTheme = (theme) => {
-    return new Promise((resolve, reject) => {
-        __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].CHANGE_THEME, theme);
-        __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].CHANGE_THEME, (e, reply) => {
-            if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS) resolve();
+const getConfig = () => new Promise((resolve, reject) => {
+    try{
+        __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].GET_CONFIG);
+        __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].GET_CONFIG, (e, reply, config) => {
+            if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS) resolve(config);
             else reject(reply);
         });
-    });
-};
+    } catch(err){
+        reject(err.mesage);
+    }
+});
 
-const deletePlugin = (plugin) => {
-    return new Promise((resolve, reject) => {
-        __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].DELETE_PLUGIN, plugin);
-        __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].DELETE_PLIGIN, (e, reply) => {
-            if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS) resolve();
-            else reject(reply);
-        });
+const getPlugins = () => new Promise((resolve, reject) => {
+    getConfig().then((config) => {
+        resolve(config['plugins']);
+    }, (err) => {
+        reject(err);
+    });
+});
+
+const getCurTheme = () => new Promise((resolve, reject) => {
+    getConfig().then((config) => {
+        resolve(config['theme']);
+    }, (err) => {
+        reject(err.message);
+    });
+});
+
+const changeTheme = (theme) => new Promise((resolve, reject) => {
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].CHANGE_THEME, theme);
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].CHANGE_THEME, (e, reply) => {
+        if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS) resolve();
+        else reject(reply);
+    });
+});
+
+
+const deletePlugin = (plugin) => new Promise((resolve, reject) => {
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].DELETE_PLUGIN, plugin);
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].DELETE_PLIGIN, (e, reply) => {
+        if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS) resolve();
+        else reject(reply);
+    });
+});
+
+const sendNotificationShortcut = (msg) => {
+    sendNotification(msg).then(() => {
+
+    }, (err) => {
+        console.log('error sending notification: '+err);
     });
 }
 
 /* harmony default export */ __webpack_exports__["default"] = {
     installPlugin,
     sendNotification,
+    sendNotificationShortcut,
     getPlugins,
     getCurTheme,
     getConfig,
@@ -12235,6 +12231,17 @@ var Plugins_list = function (_React$Component) {
             };
         }
     }, {
+        key: 'listingClickMethod',
+        value: function listingClickMethod(pl) {
+            if (confirm('uninstall ' + pl + '?')) {
+                _ipc_client2.default.deletePlugin(pl).then(function () {
+                    _ipc_client2.default.sendNotificationShortcut(pl + ' uninstalled successfully!');
+                }, function (err) {
+                    _ipc_client2.default.sendNotificationShortcut('error uninstalling ' + pl + ' err: ' + err);
+                });
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
@@ -12243,23 +12250,16 @@ var Plugins_list = function (_React$Component) {
                 'div',
                 { style: this.getStyles().list },
                 this.props.plugins.map(function (pl, index) {
-
-                    var clickMethod = function clickMethod() {
-                        if (confirm('uninstall ' + pl + '?')) {
-                            _ipc_client2.default.deletePlugin(pl).then(function () {
-                                _ipc_client2.default.sendNotification(pl + ' uninstalled successfully!');
-                            }, function (err) {
-                                _ipc_client2.default.sendNotification('error uninstalling ' + pl + ' err: ' + err);
-                            });
-                        }
-                    };
-
+                    //function binding may be a future performance issue
                     return _react2.default.createElement(
                         'div',
                         { style: _this2.getStyles().listing, key: index },
                         pl,
-                        ' ',
-                        _react2.default.createElement('img', { src: 'graphics/x_icon.png', style: _this2.getStyles().x_icon, onClick: clickMethod })
+                        _react2.default.createElement('img', {
+                            src: 'graphics/x_icon.png',
+                            style: _this2.getStyles().x_icon,
+                            onClick: _this2.listingClickMethod.bind(pl)
+                        })
                     );
                 })
             );

@@ -11,3 +11,4 @@ $ git clone https://github.com/mrjohnyhats/dext_settings_window
 ```
 
 2. Run `npm install` in the new cloned directory.
+3. Run `npm run start` to compile and start the program

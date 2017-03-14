@@ -42,7 +42,7 @@ class Plugins_list extends React.Component {
                             <img
                                 src="graphics/x_icon.png"
                                 style={this.getStyles().x_icon}
-                                onClick={this.listingClickMethod.bind(pl)}
+                                onClick={this.listingClickMethod.bind(this, pl)}
                             />
                         </div>
                     );

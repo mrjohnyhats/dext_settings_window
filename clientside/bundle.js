@@ -12258,7 +12258,7 @@ var Plugins_list = function (_React$Component) {
                         _react2.default.createElement('img', {
                             src: 'graphics/x_icon.png',
                             style: _this2.getStyles().x_icon,
-                            onClick: _this2.listingClickMethod.bind(pl)
+                            onClick: _this2.listingClickMethod.bind(_this2, pl)
                         })
                     );
                 })

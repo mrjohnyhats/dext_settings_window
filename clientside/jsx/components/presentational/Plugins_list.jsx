@@ -25,6 +25,7 @@ class Plugins_list extends React.Component {
         if(confirm('uninstall '+pl+'?')){
             ipc_client.deletePlugin(pl).then(() => {
                 ipc_client.sendNotificationShortcut(pl+' uninstalled successfully!');
+                this.props.updatePlugins();
             }, (err) => {
                 ipc_client.sendNotificationShortcut('error uninstalling '+pl+' err: '+err);
             });
@@ -53,7 +54,8 @@ class Plugins_list extends React.Component {
 }
 
 Plugins_list.propTypes = {
-    plugins: PropTypes.arrayOf(PropTypes.string).isRequired
+    plugins: PropTypes.arrayOf(PropTypes.string).isRequired,
+    updatePlugins: PropTypes.func.isRequired
 };
 
 export default Radium(Plugins_list);

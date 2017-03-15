@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updatePlugins: (theme) => {
+        updatePlugins: () => {
             ipc_client.getPlugins().then((plugins) => {
                 dispatch(actions.updatePlugins(plugins));
             });

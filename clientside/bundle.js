@@ -2901,9 +2901,13 @@ const changeTheme = (theme) => new Promise((resolve, reject) => {
 
 const deletePlugin = (plugin) => new Promise((resolve, reject) => {
     __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].DELETE_PLUGIN, plugin);
-    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].DELETE_PLIGIN, (e, reply) => {
-        if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS) resolve();
-        else reject(reply);
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].DELETE_PLUGIN, (e, reply) => {
+        console.log('got msg back');
+        if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS){
+            resolve();
+        } else {
+            reject(reply);
+        }
     });
 });
 
@@ -11731,6 +11735,10 @@ var _Plugins_list = __webpack_require__(127);
 
 var _Plugins_list2 = _interopRequireDefault(_Plugins_list);
 
+var _ipc_client = __webpack_require__(24);
+
+var _ipc_client2 = _interopRequireDefault(_ipc_client);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -11739,7 +11747,17 @@ var mapStateToProps = function mapStateToProps(state) {
     };
 };
 
-var Plugins_list_container = (0, _reactRedux.connect)(mapStateToProps)(_Plugins_list2.default);
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {
+        updatePlugins: function updatePlugins() {
+            _ipc_client2.default.getPlugins().then(function (plugins) {
+                dispatch(_actions2.default.updatePlugins(plugins));
+            });
+        }
+    };
+};
+
+var Plugins_list_container = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Plugins_list2.default);
 
 exports.default = Plugins_list_container;
 
@@ -11776,7 +11794,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
-        updatePlugins: function updatePlugins(theme) {
+        updatePlugins: function updatePlugins() {
             _ipc_client2.default.getPlugins().then(function (plugins) {
                 dispatch(_actions2.default.updatePlugins(plugins));
             });
@@ -12233,9 +12251,12 @@ var Plugins_list = function (_React$Component) {
     }, {
         key: 'listingClickMethod',
         value: function listingClickMethod(pl) {
+            var _this2 = this;
+
             if (confirm('uninstall ' + pl + '?')) {
                 _ipc_client2.default.deletePlugin(pl).then(function () {
                     _ipc_client2.default.sendNotificationShortcut(pl + ' uninstalled successfully!');
+                    _this2.props.updatePlugins();
                 }, function (err) {
                     _ipc_client2.default.sendNotificationShortcut('error uninstalling ' + pl + ' err: ' + err);
                 });
@@ -12244,7 +12265,7 @@ var Plugins_list = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             return _react2.default.createElement(
                 'div',
@@ -12253,12 +12274,12 @@ var Plugins_list = function (_React$Component) {
                     //function binding may be a future performance issue
                     return _react2.default.createElement(
                         'div',
-                        { style: _this2.getStyles().listing, key: index },
+                        { style: _this3.getStyles().listing, key: index },
                         pl,
                         _react2.default.createElement('img', {
                             src: 'graphics/x_icon.png',
-                            style: _this2.getStyles().x_icon,
-                            onClick: _this2.listingClickMethod.bind(_this2, pl)
+                            style: _this3.getStyles().x_icon,
+                            onClick: _this3.listingClickMethod.bind(_this3, pl)
                         })
                     );
                 })
@@ -12270,7 +12291,8 @@ var Plugins_list = function (_React$Component) {
 }(_react2.default.Component);
 
 Plugins_list.propTypes = {
-    plugins: _react.PropTypes.arrayOf(_react.PropTypes.string).isRequired
+    plugins: _react.PropTypes.arrayOf(_react.PropTypes.string).isRequired,
+    updatePlugins: _react.PropTypes.func.isRequired
 };
 
 exports.default = (0, _radium2.default)(Plugins_list);

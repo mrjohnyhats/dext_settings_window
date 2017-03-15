@@ -63,9 +63,13 @@ const changeTheme = (theme) => new Promise((resolve, reject) => {
 
 const deletePlugin = (plugin) => new Promise((resolve, reject) => {
     ipcRenderer.send(ipc_chans.DELETE_PLUGIN, plugin);
-    ipcRenderer.once(ipc_chans.DELETE_PLIGIN, (e, reply) => {
-        if(reply == ipc_replies.SUCCESS) resolve();
-        else reject(reply);
+    ipcRenderer.once(ipc_chans.DELETE_PLUGIN, (e, reply) => {
+        console.log('got msg back');
+        if(reply == ipc_replies.SUCCESS){
+            resolve();
+        } else {
+            reject(reply);
+        }
     });
 });
 

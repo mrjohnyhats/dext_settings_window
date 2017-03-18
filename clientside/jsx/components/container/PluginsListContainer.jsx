@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import actions from '../../../actions.js';
-import Plugins_list from '../presentational/Plugins_list.jsx'
+import PluginsList from '../presentational/PluginsList.jsx'
 import ipc_client from '../../../ipc_client.js'
 
 
@@ -20,6 +20,6 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-const Plugins_list_container = connect(mapStateToProps, mapDispatchToProps)(Plugins_list);
+const PluginsListContainer = connect(mapStateToProps, mapDispatchToProps)(PluginsList);
 
-export default Plugins_list_container
+export default PluginsListContainer

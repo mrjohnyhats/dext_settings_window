@@ -5,7 +5,7 @@ import RadioBtns from './RadioBtns.jsx';
 import ipc_client from '../../../ipc_client.js';
 import actions from '../../../actions.js';
 
-class Themes_page extends React.Component {
+class ThemesPage extends React.Component {
     constructor(){
         super();
         this.onThemeSelect = this.onThemeSelect.bind(this);
@@ -28,10 +28,10 @@ class Themes_page extends React.Component {
     }
 }
 
-Themes_page.propTypes = {
+ThemesPage.propTypes = {
     curTheme: PropTypes.string.isRequired,
     themeArr: PropTypes.arrayOf(PropTypes.string).isRequired,
     regThemeChange: PropTypes.func.isRequired
 };
 
-export default Themes_page;
+export default ThemesPage;

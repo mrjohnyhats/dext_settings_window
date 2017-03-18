@@ -3,9 +3,9 @@ import Radium from 'radium';
 import Page from '../base/Page.jsx';
 import Inputbox from './Inputbox.jsx';
 import ipc_client from '../../../ipc_client.js';
-import Plugins_list_container from '../container/Plugins_list_container'
+import PluginsListContainer from '../container/PluginsListContainer'
 
-class Plugins_page extends React.Component {
+class PluginsPage extends React.Component {
     constructor(){
         super();
         this.state = {
@@ -60,14 +60,14 @@ class Plugins_page extends React.Component {
             <Page>
                 <Inputbox defaultVal="install a plugin" handleSubmit={this.handlePluginSubmit}/>
                 {loadingElem}
-                <Plugins_list_container/>
+                <PluginsListContainer/>
             </Page>
         );
     }
 }
 
-Plugins_page.propTypes = {
+PluginsPage.propTypes = {
     updatePlugins: PropTypes.func.isRequired
 };
 
-export default Radium(Plugins_page);
+export default Radium(PluginsPage);

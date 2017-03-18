@@ -3,7 +3,7 @@ import Radium from 'radium';
 import ipc_client from '../../../ipc_client.js';
 
 
-class Plugins_list extends React.Component {
+class PluginsList extends React.Component {
     constructor(){
         super();
         this.state = {
@@ -91,9 +91,9 @@ class Plugins_list extends React.Component {
     }
 }
 
-Plugins_list.propTypes = {
+PluginsList.propTypes = {
     plugins: PropTypes.arrayOf(PropTypes.string).isRequired,
     updatePlugins: PropTypes.func.isRequired
 };
 
-export default Radium(Plugins_list);
+export default Radium(PluginsList);

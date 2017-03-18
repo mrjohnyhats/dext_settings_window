@@ -12100,6 +12100,9 @@ var RadioBtns = function (_React$Component) {
         key: 'getStyles',
         value: function getStyles() {
             return {
+                form: {
+                    margin: '4vw'
+                },
                 btns: {
                     display: 'block'
                 }
@@ -12112,7 +12115,7 @@ var RadioBtns = function (_React$Component) {
 
             return _react2.default.createElement(
                 'form',
-                null,
+                { style: this.getStyles().form },
                 this.props.btnNames.map(function (name, index) {
                     var isChecked = name == _this2.props.btnSelected;
                     return _react2.default.createElement(

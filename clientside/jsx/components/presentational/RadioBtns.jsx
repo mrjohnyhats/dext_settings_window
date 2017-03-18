@@ -14,6 +14,9 @@ class RadioBtns extends React.Component {
 
     getStyles(){
         return {
+            form: {
+                margin: '4vw'
+            },
             btns: {
                 display: 'block'
             }
@@ -22,7 +25,7 @@ class RadioBtns extends React.Component {
 
     render(){
         return(
-            <form>
+            <form style={this.getStyles().form}>
                 {
                     this.props.btnNames.map((name, index) => {
                         let isChecked = (name == this.props.btnSelected);

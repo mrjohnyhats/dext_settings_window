@@ -547,7 +547,7 @@ module.exports = ReactDOMComponentTree;
 "use strict";
 
 
-module.exports = __webpack_require__(23);
+module.exports = __webpack_require__(24);
 
 
 /***/ }),
@@ -1026,7 +1026,7 @@ var _prodInvariant = __webpack_require__(2),
 var CallbackQueue = __webpack_require__(83);
 var PooledClass = __webpack_require__(17);
 var ReactFeatureFlags = __webpack_require__(88);
-var ReactReconciler = __webpack_require__(21);
+var ReactReconciler = __webpack_require__(22);
 var Transaction = __webpack_require__(35);
 
 var invariant = __webpack_require__(0);
@@ -2420,6 +2420,111 @@ module.exports = reactProdInvariant;
 
 /***/ }),
 /* 20 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_electron__ = __webpack_require__(299);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_electron___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_electron__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ipc_replies__ = __webpack_require__(116);
+
+
+
+
+const installPlugin = (plName) => new Promise((resolve, reject) => {
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].INSTALL_PLUGIN, plName);
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].INSTALL_PLUGIN, (e, reply) => {
+        if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS){
+            resolve();
+        } else {
+            reject(reply);
+        }
+    });
+});
+
+const sendNotification = (msg) => new Promise((resolve, reject) => {
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].SEND_NOTIFICATION, msg);
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].SEND_NOTIFICATION, (e, reply) => {
+        if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS){
+            resolve();
+        } else {
+            reject(reply);
+        }
+    });
+});
+
+const getConfig = () => new Promise((resolve, reject) => {
+    try{
+        __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].GET_CONFIG);
+        __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].GET_CONFIG, (e, reply, config) => {
+            if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS) resolve(config);
+            else reject(reply);
+        });
+    } catch(err){
+        reject(err.mesage);
+    }
+});
+
+const getPlugins = () => new Promise((resolve, reject) => {
+    getConfig().then((config) => {
+        resolve(config['plugins']);
+    }, (err) => {
+        reject(err);
+    });
+});
+
+const getCurTheme = () => new Promise((resolve, reject) => {
+    getConfig().then((config) => {
+        resolve(config['theme']);
+    }, (err) => {
+        reject(err.message);
+    });
+});
+
+const changeTheme = (theme) => new Promise((resolve, reject) => {
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].CHANGE_THEME, theme);
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].CHANGE_THEME, (e, reply) => {
+        if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS) resolve();
+        else reject(reply);
+    });
+});
+
+
+const deletePlugin = (plugin) => new Promise((resolve, reject) => {
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].DELETE_PLUGIN, plugin);
+    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].DELETE_PLUGIN, (e, reply) => {
+        console.log('got msg back');
+        if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS){
+            resolve();
+        } else {
+            reject(reply);
+        }
+    });
+});
+
+const sendNotificationShortcut = (msg) => {
+    sendNotification(msg).then(() => {
+
+    }, (err) => {
+        console.log('error sending notification: '+err);
+    });
+}
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    installPlugin,
+    sendNotification,
+    sendNotificationShortcut,
+    getPlugins,
+    getCurTheme,
+    getConfig,
+    changeTheme,
+    deletePlugin
+};
+
+
+/***/ }),
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2542,7 +2647,7 @@ DOMLazyTree.queueText = queueText;
 module.exports = DOMLazyTree;
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2715,7 +2820,7 @@ var ReactReconciler = {
 module.exports = ReactReconciler;
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2733,7 +2838,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2825,111 +2930,6 @@ var React = {
 };
 
 module.exports = React;
-
-/***/ }),
-/* 24 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_electron__ = __webpack_require__(299);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_electron___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_electron__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__ = __webpack_require__(115);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ipc_replies__ = __webpack_require__(116);
-
-
-
-
-const installPlugin = (plName) => new Promise((resolve, reject) => {
-    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].INSTALL_PLUGIN, plName);
-    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].INSTALL_PLUGIN, (e, reply) => {
-        if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS){
-            resolve();
-        } else {
-            reject(reply);
-        }
-    });
-});
-
-const sendNotification = (msg) => new Promise((resolve, reject) => {
-    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].SEND_NOTIFICATION, msg);
-    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].SEND_NOTIFICATION, (e, reply) => {
-        if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS){
-            resolve();
-        } else {
-            reject(reply);
-        }
-    });
-});
-
-const getConfig = () => new Promise((resolve, reject) => {
-    try{
-        __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].GET_CONFIG);
-        __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].GET_CONFIG, (e, reply, config) => {
-            if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS) resolve(config);
-            else reject(reply);
-        });
-    } catch(err){
-        reject(err.mesage);
-    }
-});
-
-const getPlugins = () => new Promise((resolve, reject) => {
-    getConfig().then((config) => {
-        resolve(config['plugins']);
-    }, (err) => {
-        reject(err);
-    });
-});
-
-const getCurTheme = () => new Promise((resolve, reject) => {
-    getConfig().then((config) => {
-        resolve(config['theme']);
-    }, (err) => {
-        reject(err.message);
-    });
-});
-
-const changeTheme = (theme) => new Promise((resolve, reject) => {
-    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].CHANGE_THEME, theme);
-    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].CHANGE_THEME, (e, reply) => {
-        if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS) resolve();
-        else reject(reply);
-    });
-});
-
-
-const deletePlugin = (plugin) => new Promise((resolve, reject) => {
-    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].send(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].DELETE_PLUGIN, plugin);
-    __WEBPACK_IMPORTED_MODULE_0_electron__["ipcRenderer"].once(__WEBPACK_IMPORTED_MODULE_1__ipc_chans_js__["a" /* default */].DELETE_PLUGIN, (e, reply) => {
-        console.log('got msg back');
-        if(reply == __WEBPACK_IMPORTED_MODULE_2__ipc_replies__["a" /* default */].SUCCESS){
-            resolve();
-        } else {
-            reject(reply);
-        }
-    });
-});
-
-const sendNotificationShortcut = (msg) => {
-    sendNotification(msg).then(() => {
-
-    }, (err) => {
-        console.log('error sending notification: '+err);
-    });
-}
-
-/* harmony default export */ __webpack_exports__["default"] = {
-    installPlugin,
-    sendNotification,
-    sendNotificationShortcut,
-    getPlugins,
-    getCurTheme,
-    getConfig,
-    changeTheme,
-    deletePlugin
-};
-
 
 /***/ }),
 /* 25 */
@@ -5071,7 +5071,7 @@ module.exports = exports['default'];
 
 
 
-var DOMLazyTree = __webpack_require__(20);
+var DOMLazyTree = __webpack_require__(21);
 var Danger = __webpack_require__(205);
 var ReactDOMComponentTree = __webpack_require__(4);
 var ReactInstrumentation = __webpack_require__(8);
@@ -5623,7 +5623,7 @@ module.exports = KeyEscapeUtils;
 
 var _prodInvariant = __webpack_require__(2);
 
-var React = __webpack_require__(23);
+var React = __webpack_require__(24);
 var ReactPropTypesSecret = __webpack_require__(93);
 
 var invariant = __webpack_require__(0);
@@ -9242,9 +9242,9 @@ module.exports = ReactInputSelection;
 
 var _prodInvariant = __webpack_require__(2);
 
-var DOMLazyTree = __webpack_require__(20);
+var DOMLazyTree = __webpack_require__(21);
 var DOMProperty = __webpack_require__(15);
-var React = __webpack_require__(23);
+var React = __webpack_require__(24);
 var ReactBrowserEventEmitter = __webpack_require__(33);
 var ReactCurrentOwner = __webpack_require__(11);
 var ReactDOMComponentTree = __webpack_require__(4);
@@ -9254,7 +9254,7 @@ var ReactFeatureFlags = __webpack_require__(88);
 var ReactInstanceMap = __webpack_require__(28);
 var ReactInstrumentation = __webpack_require__(8);
 var ReactMarkupChecksum = __webpack_require__(237);
-var ReactReconciler = __webpack_require__(21);
+var ReactReconciler = __webpack_require__(22);
 var ReactUpdateQueue = __webpack_require__(51);
 var ReactUpdates = __webpack_require__(10);
 
@@ -9786,7 +9786,7 @@ module.exports = ReactMount;
 
 var _prodInvariant = __webpack_require__(2);
 
-var React = __webpack_require__(23);
+var React = __webpack_require__(24);
 
 var invariant = __webpack_require__(0);
 
@@ -11534,7 +11534,7 @@ var _reactDom = __webpack_require__(199);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRedux = __webpack_require__(22);
+var _reactRedux = __webpack_require__(23);
 
 var _redux = __webpack_require__(112);
 
@@ -11542,7 +11542,7 @@ var _reducer = __webpack_require__(117);
 
 var _reducer2 = _interopRequireDefault(_reducer);
 
-var _ipc_client = __webpack_require__(24);
+var _ipc_client = __webpack_require__(20);
 
 var _ipc_client2 = _interopRequireDefault(_ipc_client);
 
@@ -11608,7 +11608,7 @@ _ipc_client2.default.getPlugins().then(function (plugins) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__actionTypes__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ipc_client__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ipc_client__ = __webpack_require__(20);
 
 
 
@@ -11658,7 +11658,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _reactRedux = __webpack_require__(22);
+var _reactRedux = __webpack_require__(23);
 
 var _App = __webpack_require__(123);
 
@@ -11685,7 +11685,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _reactRedux = __webpack_require__(22);
+var _reactRedux = __webpack_require__(23);
 
 var _actions = __webpack_require__(16);
 
@@ -11725,7 +11725,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _reactRedux = __webpack_require__(22);
+var _reactRedux = __webpack_require__(23);
 
 var _actions = __webpack_require__(16);
 
@@ -11735,7 +11735,7 @@ var _Plugins_list = __webpack_require__(127);
 
 var _Plugins_list2 = _interopRequireDefault(_Plugins_list);
 
-var _ipc_client = __webpack_require__(24);
+var _ipc_client = __webpack_require__(20);
 
 var _ipc_client2 = _interopRequireDefault(_ipc_client);
 
@@ -11784,11 +11784,11 @@ var _actions = __webpack_require__(16);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _ipc_client = __webpack_require__(24);
+var _ipc_client = __webpack_require__(20);
 
 var _ipc_client2 = _interopRequireDefault(_ipc_client);
 
-var _reactRedux = __webpack_require__(22);
+var _reactRedux = __webpack_require__(23);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11827,7 +11827,7 @@ var _actions = __webpack_require__(16);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _reactRedux = __webpack_require__(22);
+var _reactRedux = __webpack_require__(23);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12209,7 +12209,7 @@ var _radium = __webpack_require__(14);
 
 var _radium2 = _interopRequireDefault(_radium);
 
-var _ipc_client = __webpack_require__(24);
+var _ipc_client = __webpack_require__(20);
 
 var _ipc_client2 = _interopRequireDefault(_ipc_client);
 
@@ -12227,7 +12227,12 @@ var Plugins_list = function (_React$Component) {
     function Plugins_list() {
         _classCallCheck(this, Plugins_list);
 
-        return _possibleConstructorReturn(this, (Plugins_list.__proto__ || Object.getPrototypeOf(Plugins_list)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Plugins_list.__proto__ || Object.getPrototypeOf(Plugins_list)).call(this));
+
+        _this.state = {
+            pluginsDeleting: []
+        };
+        return _this;
     }
 
     _createClass(Plugins_list, [{
@@ -12240,7 +12245,9 @@ var Plugins_list = function (_React$Component) {
                     marginBottom: '3%'
                 },
                 x_icon: {
-                    marginLeft: '1%'
+                    marginLeft: '1%',
+                    width: '16px',
+                    height: '16px'
                 },
                 list: {
                     display: 'block',
@@ -12253,11 +12260,28 @@ var Plugins_list = function (_React$Component) {
         value: function listingClickMethod(pl) {
             var _this2 = this;
 
+            var regDelComplete = function regDelComplete() {
+                var newPluginsDeleting = _this2.state.pluginsDeleting;
+                newPluginsDeleting.splice(newPluginsDeleting.indexOf(pl), 1);
+                _this2.setState({
+                    pluginsDeleting: newPluginsDeleting
+                });
+            };
+
+            var regDelStart = function regDelStart() {
+                _this2.setState({
+                    pluginsDeleting: _this2.state.pluginsDeleting.concat(pl)
+                });
+            };
+
             if (confirm('uninstall ' + pl + '?')) {
+                regDelStart();
                 _ipc_client2.default.deletePlugin(pl).then(function () {
+                    regDelComplete();
                     _ipc_client2.default.sendNotificationShortcut(pl + ' uninstalled successfully!');
                     _this2.props.updatePlugins();
                 }, function (err) {
+                    regDelComplete();
                     _ipc_client2.default.sendNotificationShortcut('error uninstalling ' + pl + ' err: ' + err);
                 });
             }
@@ -12267,20 +12291,31 @@ var Plugins_list = function (_React$Component) {
         value: function render() {
             var _this3 = this;
 
+            var delicon = void 0;
             return _react2.default.createElement(
                 'div',
                 { style: this.getStyles().list },
                 this.props.plugins.map(function (pl, index) {
                     //function binding may be a future performance issue
+
+                    if (_this3.state.pluginsDeleting.indexOf(pl) == -1) {
+                        delicon = _react2.default.createElement('img', {
+                            src: 'graphics/x_icon.png',
+                            style: _this3.getStyles().x_icon,
+                            onClick: _this3.listingClickMethod.bind(_this3, pl)
+                        });
+                    } else {
+                        delicon = _react2.default.createElement('img', {
+                            src: 'graphics/loading_gif.gif',
+                            style: _this3.getStyles().x_icon
+                        });
+                    }
+
                     return _react2.default.createElement(
                         'div',
                         { style: _this3.getStyles().listing, key: index },
                         pl,
-                        _react2.default.createElement('img', {
-                            src: 'graphics/x_icon.png',
-                            style: _this3.getStyles().x_icon,
-                            onClick: _this3.listingClickMethod.bind(_this3, pl)
-                        })
+                        delicon
                     );
                 })
             );
@@ -12326,7 +12361,7 @@ var _Inputbox = __webpack_require__(124);
 
 var _Inputbox2 = _interopRequireDefault(_Inputbox);
 
-var _ipc_client = __webpack_require__(24);
+var _ipc_client = __webpack_require__(20);
 
 var _ipc_client2 = _interopRequireDefault(_ipc_client);
 
@@ -12364,7 +12399,9 @@ var Plugins_page = function (_React$Component) {
             return {
                 loadingElem: {
                     display: 'block',
-                    margin: '8vh auto auto auto'
+                    margin: '8vh auto auto auto',
+                    width: '256px',
+                    height: '256px'
                 }
             };
         }
@@ -12380,9 +12417,7 @@ var Plugins_page = function (_React$Component) {
             var plName = inputVal.trim();
 
             _ipc_client2.default.installPlugin(plName).then(function () {
-                _ipc_client2.default.sendNotification('installing plugin ' + plName + ' was successfull').then(function () {}, function (err) {
-                    console.log('error sending notification ' + err);
-                });
+                _ipc_client2.default.sendNotificationShortcut('installing plugin ' + plName + ' was successfull');
 
                 _this2.props.updatePlugins();
 
@@ -12390,9 +12425,7 @@ var Plugins_page = function (_React$Component) {
                     showLoading: false
                 });
             }, function (err) {
-                _ipc_client2.default.sendNotification('error installing plugin ' + plName + ', error code: ' + err).then(function () {}, function (err) {
-                    console.log('error sending notification ' + err);
-                });
+                _ipc_client2.default.sendNotificationShortcut('error installing plugin ' + plName + ', error code: ' + err);
 
                 _this2.setState({
                     showLoading: false
@@ -12557,7 +12590,7 @@ var _RadioBtns = __webpack_require__(129);
 
 var _RadioBtns2 = _interopRequireDefault(_RadioBtns);
 
-var _ipc_client = __webpack_require__(24);
+var _ipc_client = __webpack_require__(20);
 
 var _ipc_client2 = _interopRequireDefault(_ipc_client);
 
@@ -17738,7 +17771,7 @@ module.exports = ChangeEventPlugin;
 
 var _prodInvariant = __webpack_require__(2);
 
-var DOMLazyTree = __webpack_require__(20);
+var DOMLazyTree = __webpack_require__(21);
 var ExecutionEnvironment = __webpack_require__(6);
 
 var createNodesFromMarkup = __webpack_require__(137);
@@ -18242,7 +18275,7 @@ module.exports = HTMLDOMPropertyConfig;
 
 
 
-var ReactReconciler = __webpack_require__(21);
+var ReactReconciler = __webpack_require__(22);
 
 var instantiateReactComponent = __webpack_require__(99);
 var KeyEscapeUtils = __webpack_require__(47);
@@ -18439,14 +18472,14 @@ module.exports = ReactComponentBrowserEnvironment;
 var _prodInvariant = __webpack_require__(2),
     _assign = __webpack_require__(3);
 
-var React = __webpack_require__(23);
+var React = __webpack_require__(24);
 var ReactComponentEnvironment = __webpack_require__(49);
 var ReactCurrentOwner = __webpack_require__(11);
 var ReactErrorUtils = __webpack_require__(50);
 var ReactInstanceMap = __webpack_require__(28);
 var ReactInstrumentation = __webpack_require__(8);
 var ReactNodeTypes = __webpack_require__(92);
-var ReactReconciler = __webpack_require__(21);
+var ReactReconciler = __webpack_require__(22);
 
 if (process.env.NODE_ENV !== 'production') {
   var checkReactTypeSpec = __webpack_require__(260);
@@ -19348,7 +19381,7 @@ module.exports = ReactCompositeComponent;
 var ReactDOMComponentTree = __webpack_require__(4);
 var ReactDefaultInjection = __webpack_require__(230);
 var ReactMount = __webpack_require__(91);
-var ReactReconciler = __webpack_require__(21);
+var ReactReconciler = __webpack_require__(22);
 var ReactUpdates = __webpack_require__(10);
 var ReactVersion = __webpack_require__(245);
 
@@ -19466,7 +19499,7 @@ var _prodInvariant = __webpack_require__(2),
 
 var AutoFocusUtils = __webpack_require__(201);
 var CSSPropertyOperations = __webpack_require__(203);
-var DOMLazyTree = __webpack_require__(20);
+var DOMLazyTree = __webpack_require__(21);
 var DOMNamespaces = __webpack_require__(45);
 var DOMProperty = __webpack_require__(15);
 var DOMPropertyOperations = __webpack_require__(84);
@@ -20505,7 +20538,7 @@ module.exports = ReactDOMContainerInfo;
 
 var _assign = __webpack_require__(3);
 
-var DOMLazyTree = __webpack_require__(20);
+var DOMLazyTree = __webpack_require__(21);
 var ReactDOMComponentTree = __webpack_require__(4);
 
 var ReactDOMEmptyComponent = function (instantiate) {
@@ -21062,7 +21095,7 @@ module.exports = ReactDOMNullInputValuePropHook;
 
 var _assign = __webpack_require__(3);
 
-var React = __webpack_require__(23);
+var React = __webpack_require__(24);
 var ReactDOMComponentTree = __webpack_require__(4);
 var ReactDOMSelect = __webpack_require__(86);
 
@@ -21409,7 +21442,7 @@ var _prodInvariant = __webpack_require__(2),
     _assign = __webpack_require__(3);
 
 var DOMChildrenOperations = __webpack_require__(44);
-var DOMLazyTree = __webpack_require__(20);
+var DOMLazyTree = __webpack_require__(21);
 var ReactDOMComponentTree = __webpack_require__(4);
 
 var escapeTextContentForBrowser = __webpack_require__(36);
@@ -22932,7 +22965,7 @@ var ReactInstanceMap = __webpack_require__(28);
 var ReactInstrumentation = __webpack_require__(8);
 
 var ReactCurrentOwner = __webpack_require__(11);
-var ReactReconciler = __webpack_require__(21);
+var ReactReconciler = __webpack_require__(22);
 var ReactChildReconciler = __webpack_require__(210);
 
 var emptyFunction = __webpack_require__(9);

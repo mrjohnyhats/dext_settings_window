@@ -19,7 +19,9 @@ class Plugins_page extends React.Component {
         return {
             loadingElem: {
                 display: 'block',
-                margin: '8vh auto auto auto'
+                margin: '8vh auto auto auto',
+                width: '256px',
+                height: '256px'
             }
         };
     }
@@ -32,9 +34,7 @@ class Plugins_page extends React.Component {
         let plName = inputVal.trim();
 
         ipc_client.installPlugin(plName).then(() => {
-            ipc_client.sendNotification('installing plugin '+plName+' was successfull').then(() => {}, (err) => {
-                console.log('error sending notification '+err);
-            });
+            ipc_client.sendNotificationShortcut('installing plugin '+plName+' was successfull');
 
             this.props.updatePlugins();
 
@@ -42,9 +42,7 @@ class Plugins_page extends React.Component {
                 showLoading: false
             });
         }, (err) => {
-            ipc_client.sendNotification('error installing plugin '+plName+', error code: '+err).then(() => {}, (err) => {
-                console.log('error sending notification '+err);
-            });
+            ipc_client.sendNotificationShortcut('error installing plugin '+plName+', error code: '+err);
 
             this.setState({
                 showLoading: false

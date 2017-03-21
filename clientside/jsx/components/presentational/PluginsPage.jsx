@@ -3,9 +3,9 @@ import Radium from 'radium';
 import Page from '../base/Page.jsx';
 import Inputbox from './Inputbox.jsx';
 import ipc_client from '../../../ipc_client.js';
-import Plugins_list_container from '../container/Plugins_list_container'
+import PluginsListContainer from '../container/PluginsListContainer'
 
-class Plugins_page extends React.Component {
+class PluginsPage extends React.Component {
     constructor(){
         super();
         this.state = {
@@ -19,7 +19,9 @@ class Plugins_page extends React.Component {
         return {
             loadingElem: {
                 display: 'block',
-                margin: '8vh auto auto auto'
+                margin: '8vh auto auto auto',
+                width: '256px',
+                height: '256px'
             }
         };
     }
@@ -32,9 +34,7 @@ class Plugins_page extends React.Component {
         let plName = inputVal.trim();
 
         ipc_client.installPlugin(plName).then(() => {
-            ipc_client.sendNotification('installing plugin '+plName+' was successfull').then(() => {}, (err) => {
-                console.log('error sending notification '+err);
-            });
+            ipc_client.sendNotificationShortcut('installing plugin '+plName+' was successfull');
 
             this.props.updatePlugins();
 
@@ -42,9 +42,7 @@ class Plugins_page extends React.Component {
                 showLoading: false
             });
         }, (err) => {
-            ipc_client.sendNotification('error installing plugin '+plName+', error code: '+err).then(() => {}, (err) => {
-                console.log('error sending notification '+err);
-            });
+            ipc_client.sendNotificationShortcut('error installing plugin '+plName+', error code: '+err);
 
             this.setState({
                 showLoading: false
@@ -62,14 +60,14 @@ class Plugins_page extends React.Component {
             <Page>
                 <Inputbox defaultVal="install a plugin" handleSubmit={this.handlePluginSubmit}/>
                 {loadingElem}
-                <Plugins_list_container/>
+                <PluginsListContainer/>
             </Page>
         );
     }
 }
 
-Plugins_page.propTypes = {
+PluginsPage.propTypes = {
     updatePlugins: PropTypes.func.isRequired
 };
 
-export default Radium(Plugins_page);
+export default Radium(PluginsPage);

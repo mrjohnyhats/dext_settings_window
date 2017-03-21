@@ -1,18 +1,18 @@
 import React, {PropTypes} from 'react';
 import Radium from 'radium';
 import Menubar from './Menubar';
-import Themes_page_container from '../container/Themes_page_container';
-import Plugins_page_container from '../container/Plugins_page_container';
+import ThemesPageContainer from '../container/ThemesPageContainer';
+import PluginsPageContainer from '../container/PluginsPageContainer';
 
 class App extends React.Component {
     render(){
         let Page;
         switch(this.props.optionSelected){
             case "themes":
-                Page = <Themes_page_container/>;
+                Page = <ThemesPageContainer/>;
                 break;
             case "plugins":
-                Page = <Plugins_page_container/>;
+                Page = <PluginsPageContainer/>;
                 break;
         };
 

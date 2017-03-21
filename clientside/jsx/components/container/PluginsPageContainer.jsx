@@ -1,12 +1,12 @@
 import React from 'react';
-import Plugins_page from '../presentational/Plugins_page.jsx';
+import PluginsPage from '../presentational/PluginsPage.jsx';
 import actions from '../../../actions.js';
 import ipc_client from '../../../ipc_client.js'
 import {connect} from 'react-redux';
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updatePlugins: (theme) => {
+        updatePlugins: () => {
             ipc_client.getPlugins().then((plugins) => {
                 dispatch(actions.updatePlugins(plugins));
             });
@@ -14,4 +14,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(Plugins_page);
+export default connect(null, mapDispatchToProps)(PluginsPage);

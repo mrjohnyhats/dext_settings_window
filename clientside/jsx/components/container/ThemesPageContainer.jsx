@@ -1,5 +1,5 @@
 import React from 'react';
-import Themes_page from '../presentational/Themes_page.jsx';
+import ThemesPage from '../presentational/ThemesPage.jsx';
 import actions from '../../../actions.js';
 import {connect} from 'react-redux';
 
@@ -28,4 +28,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Themes_page);
+export default connect(mapStateToProps, mapDispatchToProps)(ThemesPage);
